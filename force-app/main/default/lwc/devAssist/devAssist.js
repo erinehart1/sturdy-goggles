@@ -1,15 +1,17 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement } from 'lwc';
 import getMergedPRs from '@salesforce/apex/GitHubService.getMergedPRs';
 
 export default class DevAssist extends LightningElement {
-    @track pullRequests;
+    pullRequests;
 
     connectedCallback() {
+        console.log('DevAssist connectedCallback triggered');
         // Update this path based on the metadata you're displaying contextually
-        const metadataPath = 'force-app/main/default/flexipages/DevAssist_Testing_UtilityBar.flexipage-meta.xml';
+        const metadataPath = 'force-app/main/default/objects/Contact/fields/My_Second_Field__c.field-meta.xml';
 
-        getMergedPRs(metadataPath)
+        getMergedPRs({ path: metadataPath })
             .then(data => {
+                console.log('Received PR data:', JSON.stringify(data));
                 this.pullRequests = data;
             })
             .catch(error => {

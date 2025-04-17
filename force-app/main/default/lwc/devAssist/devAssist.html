@@ -1,25 +1,4 @@
 <template>
-    <template if:true={metadata}>
-        <div class="slds-box slds-theme_default">
-            <template if:true={metadata.fallback}>
-                <p><strong>No metadata found for this component.</strong></p>
-            </template>
-            <template if:false={metadata.fallback}>
-                <p><strong>Source:</strong> {metadata.source}</p>
-                <template if:true={metadata.task}>
-                    <p><strong>Task:</strong> {metadata.task}</p>
-                </template>
-                <p><strong>File:</strong> {metadata.file}</p>
-                <p>
-                    <strong>GitHub:</strong>
-                    <a href={metadata.fileUrl} target="_blank">View on GitHub</a>
-                </p>
-            </template>
-        </div>
-    </template>
-    <template if:false={metadata}>
-        <p>No metadata available.</p>
-    </template>
     <template if:true={pullRequests}>
         <div class="slds-box slds-theme_default slds-m-top_medium">
             <h3 class="slds-text-heading_small">Recent Merged PRs</h3>
@@ -32,5 +11,8 @@
                 </template>
             </ul>
         </div>
+    </template>
+    <template if:false={pullRequests}>
+        <p>No merged PRs found for this metadata.</p>
     </template>
 </template>

@@ -23,6 +23,7 @@ public with sharing class GitHubService {
         HttpResponse res = http.send(req);
 
         List<PullRequest> prs = (List<PullRequest>) JSON.deserialize(res.getBody(), List<PullRequest>.class);
+        System.debug('Sending GitHub proxy request to: ' + baseUrl);
         return prs;
     }
 }
