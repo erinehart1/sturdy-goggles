@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Admissions Timeline</label>
+    <protected>false</protected>
+    <values>
+        <field>Asset_Type__c</field>
+        <value xsi:type="xsd:string">Timeline</value>
+    </values>
+    <values>
+        <field>Developer_Name__c</field>
+        <value xsi:type="xsd:string">Admissions Timeline</value>
+    </values>
+    <values>
+        <field>GitHub_File_Path__c</field>
+        <value xsi:type="xsd:string">/blob/main/force-app/main/default/objects/BenefitAssignment/BenefitAssignment.object-meta.xml</value>
+    </values>
+    <values>
+        <field>GitHub_File_URL__c</field>
+        <value xsi:type="xsd:string">https://github.dev/sfdc-qbranch-emu/QBrix-3-EDU-AI-Advising-Case-Summary/blob/main/force-app/main/default/objects/BenefitAssignment/BenefitAssignment.object-meta.xml</value>
+    </values>
+    <values>
+        <field>Source__c</field>
+        <value xsi:type="xsd:string">Post-Spin</value>
+    </values>
+    <values>
+        <field>Task__c</field>
+        <value xsi:type="xsd:string">deploy_application_timeline</value>
+    </values>
+</CustomMetadata>

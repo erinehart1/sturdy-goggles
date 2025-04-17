@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Type__c</fullName>
+    <description>Optional picklist used to narrow down the place where the DevAssist component displays</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Asset Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>LWC</fullName>
+                <default>true</default>
+                <label>LWC</label>
+            </value>
+            <value>
+                <fullName>Flexipage</fullName>
+                <default>false</default>
+                <label>Flexipage</label>
+            </value>
+            <value>
+                <fullName>Omniscript</fullName>
+                <default>false</default>
+                <label>Omniscript</label>
+            </value>
+            <value>
+                <fullName>Flexcard</fullName>
+                <default>false</default>
+                <label>Flexcard</label>
+            </value>
+            <value>
+                <fullName>CRMA</fullName>
+                <default>false</default>
+                <label>CRMA</label>
+            </value>
+            <value>
+                <fullName>Timeline</fullName>
+                <default>false</default>
+                <label>Timeline</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
