@@ -6,7 +6,7 @@ export default class DevAssist extends LightningElement {
 
     connectedCallback() {
         // Update this path based on the metadata you're displaying contextually
-        const metadataPath = 'force-app/main/default/objects/Contact/fields/ImAContactField.field-meta.xml';
+        const metadataPath = 'force-app/main/default/flexipages/DevAssist_Testing_UtilityBar.flexipage-meta.xml';
 
         getMergedPRs(metadataPath)
             .then(data => {
