@@ -7,11 +7,20 @@
                     <li key={pr.commitSha}>
                         <strong>{pr.title}</strong> by {pr.author} on {pr.mergedAt}<br />
                         <a href={pr.url} target="_blank">View PR</a>
+                        <template if:true={pr.fileLinks}>
+                            <ul class="slds-m-top_x-small">
+                                <template for:each={pr.fileLinks} for:item="file">
+                                    <li key={file.name}>
+                                        <a href={file.url} target="_blank">{file.name}</a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>                        
                     </li>
                 </template>
             </ul>
         </div>
-    </template>
+    </template>    
     <template if:false={pullRequests}>
         <p>No merged PRs found for this metadata.</p>
     </template>

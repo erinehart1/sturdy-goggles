@@ -1,4 +1,3 @@
-// 
 public with sharing class GitHubService {
     public class PullRequest {
         @AuraEnabled public String title;
@@ -6,6 +5,7 @@ public with sharing class GitHubService {
         @AuraEnabled public String author;
         @AuraEnabled public String mergedAt;
         @AuraEnabled public String commitSha;
+        @AuraEnabled public List<String> files;
     }
 
     @AuraEnabled(cacheable=true)
@@ -23,7 +23,6 @@ public with sharing class GitHubService {
         HttpResponse res = http.send(req);
 
         List<PullRequest> prs = (List<PullRequest>) JSON.deserialize(res.getBody(), List<PullRequest>.class);
-        System.debug('Sending GitHub proxy request to: ' + baseUrl);
         return prs;
     }
 }

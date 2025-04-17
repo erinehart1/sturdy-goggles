@@ -11,11 +11,20 @@ export default class DevAssist extends LightningElement {
 
         getMergedPRs({ path: metadataPath })
             .then(data => {
-                console.log('Received PR data:', JSON.stringify(data));
-                this.pullRequests = data;
+                this.pullRequests = data.map(pr => ({
+                    ...pr,
+                    fileLinks: pr.files.map(file => ({
+                        name: file,
+                        url: this.buildGitHubFileLink(file)
+                    }))
+                }));
             })
             .catch(error => {
                 console.error('Error fetching PRs', error);
             });
+        }
+        buildGitHubFileLink(filePath) {
+            const repoBase = 'https://github.com/my-org/sturdy-goggles/blob/main/';
+            return `${repoBase}${filePath}`;
         }
 }
