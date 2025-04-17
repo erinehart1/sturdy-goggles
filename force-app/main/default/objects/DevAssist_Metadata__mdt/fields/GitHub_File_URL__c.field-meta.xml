@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GitHub_File_URL__c</fullName>
+    <description>Full URL for the GitHub file (e.g. &quot;https://github.dev/sfdc-qbranch-emu/QBrix-3-EDU-AI-Advising-Case-Summary/blob/main/force-app/main/default/objects/BenefitAssignment/BenefitAssignment.object-meta.xml&quot;)</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>GitHub File URL</label>
+    <required>false</required>
+    <type>Url</type>
+</CustomField>
