@@ -45,6 +45,10 @@
                 <behavior>Edit</behavior>
                 <field>MyFirstField__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>My_Second_Field__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
