@@ -25,4 +25,9 @@ public with sharing class GitHubService {
         List<PullRequest> prs = (List<PullRequest>) JSON.deserialize(res.getBody(), List<PullRequest>.class);
         return prs;
     }
+
+    @AuraEnabled(cacheable=true)
+    public static String getUserProfileName() {
+        return [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId()].Profile.Name;
+    }
 }
