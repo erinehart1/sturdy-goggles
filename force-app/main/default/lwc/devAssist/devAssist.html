@@ -1,36 +1,36 @@
 <template>
-    <template if:true={metadata}>
-        <div class="slds-box slds-theme_default">
-            <template if:true={metadata.fallback}>
-                <p><strong>No metadata found for this component.</strong></p>
-            </template>
-            <template if:false={metadata.fallback}>
-                <p><strong>Source:</strong> {metadata.source}</p>
-                <template if:true={metadata.task}>
-                    <p><strong>Task:</strong> {metadata.task}</p>
-                </template>
-                <p><strong>File:</strong> {metadata.file}</p>
-                <p>
-                    <strong>GitHub:</strong>
-                    <a href={metadata.fileUrl} target="_blank">View on GitHub</a>
-                </p>
-            </template>
-        </div>
-    </template>
-    <template if:false={metadata}>
-        <p>No metadata available.</p>
-    </template>
     <template if:true={pullRequests}>
-        <div class="slds-box slds-theme_default slds-m-top_medium">
-            <h3 class="slds-text-heading_small">Recent Merged PRs</h3>
-            <ul>
+        <div class="slds-box slds-theme_default slds-m-around_medium">
+            <h3 class="slds-text-heading_small slds-m-bottom_small">Recent Merged PRs</h3>
+            <ul class="slds-list_dotted">
                 <template for:each={pullRequests} for:item="pr">
-                    <li key={pr.commitSha}>
-                        <strong>{pr.title}</strong> by {pr.author} on {pr.mergedAt}<br />
-                        <a href={pr.url} target="_blank">View PR</a>
+                    <li key={pr.commitSha} class="slds-m-bottom_medium">
+                        <div class="slds-text-title_bold">{pr.title}</div>
+                        <div class="slds-text-body_small slds-m-vertical_x-small">
+                            <span>by {pr.author} on {pr.mergedAt}</span><br />
+                            <a href={pr.url} target="_blank" class="slds-text-link">View PR</a>
+                        </div>
+                        <template if:true={pr.body}>
+                            <lightning-formatted-rich-text value={pr.body}></lightning-formatted-rich-text>
+                        </template>
+                        <template if:true={pr.fileLinks}>
+                            <details class="slds-m-top_small">
+                                <summary>Files Changed ({pr.fileLinks.length})</summary>
+                                <ul class="slds-list_dotted slds-m-left_medium">
+                                    <template for:each={pr.fileLinks} for:item="file">
+                                        <li key={file.name}>
+                                            <a href={file.url} target="_blank">{file.name}</a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </details>
+                        </template>
                     </li>
                 </template>
             </ul>
         </div>
+    </template>
+    <template if:false={pullRequests}>
+        <p class="slds-text-body_regular slds-m-around_medium">No merged PRs found for this metadata context.</p>
     </template>
 </template>
