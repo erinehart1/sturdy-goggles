@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Appends a new record every time a change occurs to that file, including summary, timestamp, and commit info. Think of it like a lightweight Field History Tracking object for metadata.</description>
+    <label>DevAssist Metadata History</label>
+    <pluralLabel>DevAssist Metadata Histories</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

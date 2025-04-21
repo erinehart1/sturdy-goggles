@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DevAssist_Metadata__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>DevAssist Metadata</label>
+    <referenceTo>DevAssist_Metadata__mdt</referenceTo>
+    <relationshipLabel>DevAssist Metadata Histories</relationshipLabel>
+    <relationshipName>DevAssist_Metadata_Histories</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>
