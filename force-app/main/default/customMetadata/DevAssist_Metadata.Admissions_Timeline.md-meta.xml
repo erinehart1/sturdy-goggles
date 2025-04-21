@@ -19,6 +19,22 @@
         <value xsi:type="xsd:string">https://github.dev/sfdc-qbranch-emu/QBrix-3-EDU-AI-Advising-Case-Summary/blob/main/force-app/main/default/objects/BenefitAssignment/BenefitAssignment.object-meta.xml</value>
     </values>
     <values>
+        <field>Last_Commit_Sha__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Last_Deployed_By__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Repo_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Repo_Owner__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Source__c</field>
         <value xsi:type="xsd:string">Post-Spin</value>
     </values>
