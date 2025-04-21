@@ -1,0 +1,31 @@
+name: Deploy and Stamp Metadata
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to target org
+        run: echo "Deploying metadata..." # Your own deploy logic here
+
+  stamp:
+    needs: deploy
+    strategy:
+      matrix:
+        filePath:
+          - force-app/main/default/lwc/myComponent/myComponent.js-meta.xml
+          - force-app/main/default/lwc/otherComponent/otherComponent.html
+    uses: your-org/shared-actions/.github/workflows/stamp-cmdt.yml@main
+    with:
+      filePath: ${{ matrix.filePath }}
+      repoName: sturdy-goggles
+      commitSha: ${{ github.sha }}
+      isProduction: ${{ github.repository == 'your-org/sturdy-goggles' && github.ref == 'refs/heads/main' }}
+    secrets:
+      SF_USERNAME: ${{ secrets.SF_USERNAME }}
+      SF_JWT_KEY: ${{ secrets.SF_JWT_KEY }}
+      SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
