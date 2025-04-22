@@ -7,10 +7,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  test:
     uses: erinehart1/devAssist-Shared-Actions/.github/workflows/deploy.yml@main
     secrets:
-      SF_USERNAME: ${{ secrets.SF_USERNAME }}
-      SF_CONSUMER_KEY: ${{ secrets.SF_CONSUMER_KEY }}
-      SF_JWT_KEY_B64: ${{ secrets.SF_JWT_KEY_B64 }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SF_JWT_KEY: ${{ secrets.SF_JWT_KEY }}
