@@ -10,4 +10,4 @@ jobs:
   test:
     uses: erinehart1/devAssist-Shared-Actions/.github/workflows/deploy.yml@main
     secrets:
-      SF_JWT_KEY: ${{ secrets.HelloWorld123 }}
+      SF_JWT_KEY: ${{ secrets.DUMMY_SECRET }}
