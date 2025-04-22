@@ -35,17 +35,16 @@ public with sharing class GitHubService {
 
     @AuraEnabled(cacheable=true)
     public static Map<String, String> getRecordContext(String recordId) {
-        Id record = Id.valueOf(recordId);
-        Schema.SObjectType sObjectType = record.getSObjectType();
+        Id safeId = Id.valueOf(recordId);
+        Schema.SObjectType sObjectType = safeId.getSObjectType();
         Schema.DescribeSObjectResult describeResult = sObjectType.getDescribe();
-        System.debug('Incoming recordId: ' + recordId);
 
         if (!describeResult.isAccessible()) {
             throw new AuraHandledException('You do not have access to this object.');
         }
 
         String objectName = describeResult.getName();
-        String query = 'SELECT RecordTypeId FROM ' + objectName + ' WHERE Id = :recordId LIMIT 1';
+        String query = 'SELECT RecordTypeId FROM ' + objectName + ' WHERE Id = :safeId LIMIT 1';
         SObject sObj = Database.query(query);
 
         Id rtId = (Id) sObj.get('RecordTypeId');
@@ -60,5 +59,4 @@ public with sharing class GitHubService {
         context.put('objectName', objectName);
         return context;
     }
-
 }
