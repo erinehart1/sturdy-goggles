@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    uses: erinehart1/devAssist-Shared-Actions/.github/workflows/deploy-reusable.yml@main
+    uses: erinehart1/devAssist-Shared-Actions/.github/workflows/deploy.yml@main
     secrets:
       SF_USERNAME: ${{ secrets.SF_USERNAME }}
       SF_CONSUMER_KEY: ${{ secrets.SF_CONSUMER_KEY }}
