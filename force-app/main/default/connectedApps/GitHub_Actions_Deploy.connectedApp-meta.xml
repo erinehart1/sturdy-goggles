@@ -3,7 +3,7 @@
     <contactEmail>ellierinehart@gmail.com</contactEmail>
     <label>GitHub Actions Deploy</label>
     <oauthConfig>
-        <callbackUrl>https://login.salesforce.com/services/oauth2/callback</callbackUrl>
+        <callbackUrl>https://test.salesforce.com/services/oauth2/callback</callbackUrl>
         <certificate>MIIDsTCCApmgAwIBAgIUZDa30F+tb9TvSdwq8hagCNd1TLQwDQYJKoZIhvcNAQELBQAwaDELMAkGA1UEBhMCVVMxEjAQBgNVBAgMCVlvdXJTdGF0ZTERMA8GA1UEBwwIWW91ckNpdHkxEDAOBgNVBAoMB1lvdXJPcmcxEjAQBgNVBAsMCURldkFzc2lzdDEMMAoGA1UEAwwDand0MB4XDTI1MDQyMzE1MzM0M1oXDTM1MDQyMTE1MzM0M1owaDELMAkGA1UEBhMCVVMxEjAQBgNVBAgMCVlvdXJTdGF0ZTERMA8GA1UEBwwIWW91ckNpdHkxEDAOBgNVBAoMB1lvdXJPcmcxEjAQBgNVBAsMCURldkFzc2lzdDEMMAoGA1UEAwwDand0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA01fRnDdGGjaYxXGRMbHEmxNqhwQByCYkdi2K98+dnGD2649Ys/sj5QfmOkyrwuToyvd8ehbslRp2rXCynCnXAJlwKahkSdmEvYDl+8Hn/U7shr70tsiLQ30dRX6iseirIf/f8JwK4simbPh9QCFOEHH+p2G1+Q+doP5GfC1Gh/L7KnhFu/yrTN/Ewzgx7Dniju0OwLdsC6IxEfaCIpr6caaPBg/k6pBD6ad5dydAz33w04XOKZWKWdLsMK7Fdv8eROfzul6Vj2WnUj2Bo0L39qc8a0zJ7PF3T3I4D/dO0xYkL87AfT4fy66r33R0LbSpvyHR8Uc+lIQdM7JCaCSDgwIDAQABo1MwUTAdBgNVHQ4EFgQUB+VdueBDWVJCwagNXh+6KEtsg3swHwYDVR0jBBgwFoAUB+VdueBDWVJCwagNXh+6KEtsg3swDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEABKgQJMUXXZyeuT/y3mggbN31SHoMo206Th5IRtar+RZ4StDafNcqcPat0JsGWCPa6Q1Hb77q5ZhHWNZkeZgVauvbOc8297Q70GqvyuUhp1boeE/8QIPQKFim+BoJYv529suGpBvknsoStRetA3ilG47UbUy4sqYvlRM6AfkkUyWAtcr5N2VVYqVV80RdWM7bMp+d3HtrjjGs4CSM/tUUnup2UzE+TCc3yLmLlSz1XD8TnhKaRlQMZvXk3aek8epuCs6Kh/MCUIYr1T1PRwKBK79ByiG+3zCHgkwHvRtp84O2vABZJP9t729bp6MHhJRXy5wJa64kK58IUFkn/kbh3A==</certificate>
         <consumerKey>3MVG9P7Pp4QrREPkY1XPqCVMBTgW6__FOWK73G_FheUyhVR.WB4B6JEiKVbGk_y.pMdwGVqUfd_D8CjH.W4B3</consumerKey>
         <isAdminApproved>false</isAdminApproved>
@@ -19,7 +19,7 @@
         <isSecretRequiredForTokenExchange>false</isSecretRequiredForTokenExchange>
         <isTokenExchangeEnabled>false</isTokenExchangeEnabled>
         <scopes>Api</scopes>
-        <!-- <scopes>Full</scopes> -->
+        <scopes>Full</scopes>
         <scopes>RefreshToken</scopes>
     </oauthConfig>
     <oauthPolicy>
