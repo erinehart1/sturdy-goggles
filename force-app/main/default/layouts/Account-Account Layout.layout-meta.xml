@@ -43,7 +43,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Emergency_Line__c</field>
+                <field>Emergency_Line_One__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
