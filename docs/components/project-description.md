@@ -936,3 +936,339 @@ erDiagram
         datetime Deployed_At__c
         string Object_Name__c
         string Task_Name__c
+        url Slack_Workflow_Link__c
+        boolean Visible_in_App__c
+        string Visible_to_Profile__c
+        string Visible_for_Record_Type__c
+    }
+</details>
+
+## Integration Patterns
+
+The CMDT records are created and updated through multiple mechanisms:
+
+1. **GitHub Actions** - Scripts run during GitHub workflows to create records based on repository changes
+2. **Apex Triggers** - Detect metadata changes directly in Salesforce and create corresponding records
+3. **Manual Updates** - Administrators can manually create records for special cases
+
+## Query Patterns
+
+Common queries used throughout the application:
+
+```apex
+// Get all metadata components of a specific type
+List<DevAssist_Metadata__mdt> components = [
+    SELECT DeveloperName, GitHub_File_Path__c, Last_Deployed_By__c
+    FROM DevAssist_Metadata__mdt
+    WHERE Asset_Type__c = :assetType
+];
+
+// Get change history for a component
+List<DevAssist_Metadata_History__mdt> history = [
+    SELECT Change_Summary__c, Deployed_By__c, Deployed_At__c, GitHub_Commit_Sha__c
+    FROM DevAssist_Metadata_History__mdt
+    WHERE DevAssist_Metadata__r.DeveloperName = :componentName
+    ORDER BY Deployed_At__c DESC
+];
+
+// Get recent changes across all components
+List<DevAssist_Metadata_History__mdt> recentChanges = [
+    SELECT DevAssist_Metadata__r.DeveloperName, Change_Summary__c, 
+           Deployed_By__c, Change_Origin__c
+    FROM DevAssist_Metadata_History__mdt
+    WHERE Deployed_At__c > :lastWeek
+    ORDER BY Deployed_At__c DESC
+];
+```
+
+## Security Considerations
+
+- Access to CMDT records is controlled via the DevAssist_App_Access permission set
+- History records can be filtered for visibility based on Profile and Record Type
+- Sensitive information is not stored in these records
+```
+
+---
+
+### 6. Lightning Web Component Documentation Template
+
+```markdown
+# Lightning Web Components
+
+## Overview
+
+Project Philly uses Lightning Web Components (LWC) to provide user interfaces for viewing metadata changes, tracking issues, and interacting with GitHub repositories within Salesforce.
+
+## Key Components
+
+<details>
+<summary><strong>devAssist</strong></summary>
+
+### Purpose
+The main component that serves as the entry point for the DevAssist application.
+
+### Template Structure
+
+```html
+<!-- devAssist.html -->
+<template>
+    <lightning-card title="DevAssist" icon-name="custom:custom63">
+        <div class="slds-var-p-around_medium">
+            <lightning-tabset>
+                <lightning-tab label="Issues">
+                    <!-- Issue tracking UI -->
+                    <c-issue-list></c-issue-list>
+                </lightning-tab>
+                <lightning-tab label="Metadata Changes">
+                    <!-- Metadata change tracking UI -->
+                    <c-metadata-history></c-metadata-history>
+                </lightning-tab>
+                <lightning-tab label="GitHub Integration">
+                    <!-- GitHub integration UI -->
+                    <c-github-repository-view></c-github-repository-view>
+                </lightning-tab>
+            </lightning-tabset>
+        </div>
+    </lightning-card>
+</template>
+```
+
+### JavaScript Controller
+
+```javascript
+// devAssist.js
+import { LightningElement, track, wire } from 'lwc';
+import { CurrentPageReference } from 'lightning/navigation';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import devAssistResources from '@salesforce/resourceUrl/devAssistResources';
+
+export default class DevAssist extends LightningElement {
+    @track activeTab = 'issues';
+    @wire(CurrentPageReference) pageRef;
+    
+    connectedCallback() {
+        // Load custom styles
+        Promise.all([
+            loadStyle(this, devAssistResources + '/css/devAssist.css')
+        ]).catch(error => {
+            console.error('Error loading resources', error);
+        });
+        
+        // Check for URL parameters to determine active tab
+        if (this.pageRef && this.pageRef.state) {
+            const tabParam = this.pageRef.state.tab;
+            if (tabParam) {
+                this.activeTab = tabParam;
+            }
+        }
+    }
+    
+    // Methods to handle tab switching, etc.
+}
+```
+
+### Metadata Configuration
+
+```xml
+<!-- devAssist.js-meta.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>DevAssist</masterLabel>
+    <description>Main component for DevAssist application</description>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage,lightning__HomePage">
+            <property name="showGitHubTab" type="Boolean" default="true" label="Show GitHub Tab"/>
+            <property name="defaultTab" type="String" default="issues" label="Default Tab"/>
+        </targetConfig>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="contextObject" type="String" default="" label="Context Object API Name"/>
+            <property name="showRelatedChangesOnly" type="Boolean" default="true" label="Show Only Related Changes"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
+```
+
+### Test Implementation
+
+```javascript
+// devAssist.test.js
+import { createElement } from 'lwc';
+import DevAssist from 'c/devAssist';
+import { registerLdsTestWireAdapter } from '@salesforce/sfdx-lwc-jest';
+import { CurrentPageReference } from 'lightning/navigation';
+
+// Mock the CurrentPageReference wire adapter
+const currentPageReferenceMock = registerLdsTestWireAdapter(CurrentPageReference);
+
+describe('c-dev-assist', () => {
+    let element;
+    
+    beforeEach(() => {
+        element = createElement('c-dev-assist', {
+            is: DevAssist
+        });
+        document.body.appendChild(element);
+    });
+    
+    afterEach(() => {
+        while (document.body.firstChild) {
+            document.body.removeChild(document.body.firstChild);
+        }
+    });
+    
+    it('displays the correct default tab', () => {
+        const tabset = element.shadowRoot.querySelector('lightning-tabset');
+        expect(tabset).not.toBeNull();
+        
+        // Default tab should be 'issues'
+        expect(element.activeTab).toBe('issues');
+    });
+    
+    it('changes active tab based on URL parameter', () => {
+        // Simulate URL parameter
+        currentPageReferenceMock.emit({
+            state: {
+                tab: 'metadata'
+            }
+        });
+        
+        return Promise.resolve().then(() => {
+            expect(element.activeTab).toBe('metadata');
+        });
+    });
+});
+```
+</details>
+
+## Component Dependencies
+
+The main `devAssist` component is designed as a container that hosts several child components:
+
+1. **issue-list** - Displays and manages issues
+2. **metadata-history** - Shows metadata change history
+3. **github-repository-view** - Provides GitHub repository interaction
+
+## Data Flow
+
+1. **Component Initialization**
+   - The component loads configuration from metadata
+   - It queries CMDT records for relevant data
+   - It sets up event listeners for real-time updates
+
+2. **User Interaction**
+   - Users can navigate between tabs
+   - They can view, filter, and interact with issues and metadata changes
+   - They can trigger actions like fetching GitHub data or creating tickets
+
+3. **External Integration**
+   - The component communicates with Apex controllers to fetch data
+   - It receives updates when metadata changes occur
+   - It dispatches events when users take actions
+
+## Examples of Usage
+
+### Embedding in App Page
+
+The DevAssist component can be added to a Lightning App Page:
+
+1. Go to Setup > Lightning App Builder
+2. Create or edit an App Page
+3. Drag the DevAssist component onto the page
+4. Configure the component properties:
+   - `showGitHubTab`: Whether to show the GitHub integration tab
+   - `defaultTab`: The tab to show by default
+
+### Embedding in Record Page
+
+The component can also be added to a Record Page for context-aware functionality:
+
+1. Go to Setup > Object Manager > [Object] > Lightning Record Pages
+2. Edit the Record Page
+3. Drag the DevAssist component onto the page
+4. Configure the component properties:
+   - `contextObject`: The API name of the context object
+   - `showRelatedChangesOnly`: Whether to show only changes related to the current record
+
+## Performance Considerations
+
+- The component uses lazy loading for tabs to improve initial load time
+- It implements debouncing for search and filter operations
+- It caches metadata information to reduce server calls
+```
+
+---
+
+### 7. README Template
+
+```markdown
+# Project Philly Documentation
+
+## Overview
+
+Welcome to the Project Philly documentation! This repository contains detailed documentation for Project Philly, a Salesforce application that integrates with GitHub to track metadata changes, manage issues, and streamline the development process.
+
+## Documentation Structure
+
+The documentation is organized into the following sections:
+
+- **[Architecture](/docs/architecture/)** - System design and data models
+- **[Components](/docs/components/)** - Detailed documentation for each component
+- **[User Flows](/docs/user-flows/)** - Step-by-step guides for common workflows
+- **[Setup Guides](/docs/setup-guides/)** - Installation and configuration instructions
+- **[Development](/docs/development/)** - Guides for contributors and developers
+
+## Key Features
+
+Project Philly provides the following key features:
+
+1. **Issue Tracking** - Identify and manage issues within Salesforce
+2. **Metadata Change Tracking** - Track changes to metadata across environments
+3. **GitHub Integration** - Sync metadata between Salesforce and GitHub
+4. **Notifications** - Receive alerts about changes and issues
+5. **Dashboards** - Visualize trends and patterns in metadata changes
+
+## Getting Started
+
+1. Review the [Architecture Overview](/docs/architecture/overview.md) to understand the system
+2. Follow the [Installation Guide](/docs/setup-guides/installation.md) to set up Project Philly
+3. Explore the [User Flows](/docs/user-flows/) to learn how to use the application
+
+## Contributing
+
+We welcome contributions to this documentation! Please see the [Contribution Guide](/docs/development/contribution-guide.md) for more information.
+
+## License
+
+This documentation is licensed under [LICENSE NAME]. See the LICENSE file for details.
+```
+
+## Implementation Guide
+
+To quickly implement this documentation framework for Project Philly:
+
+1. **Create the directory structure** in your GitHub repository:
+   ```
+   mkdir -p docs/architecture docs/components/salesforce docs/components/github docs/user-flows docs/setup-guides docs/development
+   ```
+
+2. **Start with key files**:
+   - Add the primary README.md to the docs folder
+   - Create the Test Runner documentation first (as discussed)
+   - Add the architecture overview
+
+3. **Use templates from this document** as starting points for each file
+
+4. **Link documentation to code**:
+   - Add comments in your code files that reference the documentation
+   - Include documentation links in relevant GitHub workflows
+
+5. **Create pull request templates** that remind contributors to update documentation
+
+This phased approach allows you to build comprehensive documentation over time while providing immediate value with the most critical components documented first.
